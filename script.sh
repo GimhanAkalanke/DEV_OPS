@@ -1,45 +1,58 @@
 #!/bin/bash
-echo "DEV_OPS_Trainng Log"  > /var/log/DEV_OPS_training.log
-echo "==================="  >> /var/log/DEV_OPS_training.log
 
-echo "Installing GIT....."  >> /var/log/DEV_OPS_training.log
-yum install -y git
-echo "GIT Install Completed"  >> /var/log/DEV_OPS_training.log
+LOGFILE="/var/log/DEV_OPS_training.log"
 
-echo "==================="  >> /var/log/DEV_OPS_training.log
-echo "Making env for repository"  >> /var/log/DEV_OPS_training.log
+echo "DEV_OPS_Trainng Log"  > ${LOGFILE}
+echo "==================="  >> ${LOGFILE}
+
+echo "Installing GIT....."  >> ${LOGFILE}
+  if yum install -y git
+  then
+      echo "[NORMAL] GIT Install Completed"  >> ${LOGFILE}
+      git -version >> ${LOGFILE}
+  else
+      echo "[WARNING] GIT Installation Failed" >> ${LOGFILE}
+  fi
+
+echo "==================="  >> ${LOGFILE}
+echo "[NORMAL] Making ENV for GIT repository"  >> ${LOGFILE}
 mkdir /opt/DEV_OPS
 cd /opt/DEV_OPS
-echo "env setup completed"  >> /var/log/DEV_OPS_training.log
+echo "[NORMAL] Making ENV for GIT repository Completed"  >> ${LOGFILE}
 
-echo "==================="  >> /var/log/DEV_OPS_training.log
-echo "GIT repo config"  >> /var/log/DEV_OPS_training.log
+echo "==================="  >> ${LOGFILE}
+echo "[NORMAL] GIT repository configuration"  >> ${LOGFILE}
 git config --global user.name "GimhanAkalanke"
 git config --global user.email myinbox.gm@gmail.com
 git init
 git remote add origin https://github.com/GimhanAkalanke/DEV_OPS.git
-echo "GIT repo config completed"  >> /var/log/DEV_OPS_training.log
+echo "[NORMAL] GIT repository configuration Completed"  >> ${LOGFILE}
 
-echo "==================="  >> /var/log/DEV_OPS_training.log
-echo "Getting sshd config"  >> /var/log/DEV_OPS_training.log
+echo "==================="  >> ${LOGFILE}
+echo "[NORMAL] Pulling sshd_config file"  >> ${LOGFILE}
 git pull https://GimhanAkalanke:Vcs_1234@github.com/GimhanAkalanke/DEV_OPS.git master
-echo "sshd config downloaded"  >> /var/log/DEV_OPS_training.log
+echo "[NORMAL] Pulling sshd_config file Completed"  >> ${LOGFILE}
 
-echo "==================="  >> /var/log/DEV_OPS_training.log
-echo "changing sshd config"  >> /var/log/DEV_OPS_training.log
+echo "==================="  >> ${LOGFILE}
+echo "[NORMAL] Replacing sshd_config file"  >> ${LOGFILE}
 rm -rf /etc/ssh/sshd_config
 cp -rf /opt/DEV_OPS/sshd_config /etc/ssh/sshd_config
-echo "changing sshd config completed"  >> /var/log/DEV_OPS_training.log
+echo "[NORMAL] Replacing sshd_config file Completed"  >> ${LOGFILE}
 
-echo "==================="  >> /var/log/DEV_OPS_training.log
-echo "Restarting sshd service"  >> /var/log/DEV_OPS_training.log
-systemctl restart sshd.service
-echo "Restarting sshd service completed"  >> /var/log/DEV_OPS_training.log
+echo "==================="  >> ${LOGFILE}
+echo "[NORMAL] Restarting sshd service"  >> ${LOGFILE}
+  if systemctl restart sshd.service
+  then
+    echo "[NORMAL] Restarting sshd service Completed"  >> ${LOGFILE}
+  else
+    echo "[WARNING] Restarting sshd service Failed"  >> ${LOGFILE}
+  fi
 
-echo "==================="  >> /var/log/DEV_OPS_training.log
-echo "Setting root passwd"  >> /var/log/DEV_OPS_training.log
+echo "==================="  >> ${LOGFILE}
+echo "[NORMAL] Setting root password"  >> ${LOGFILE}
 echo "vcs@1234" | passwd --stdin root
-echo "root passwd setting completed"  >> /var/log/DEV_OPS_training.log
+echo "[NORMAL] Setting root password Completed"  >> ${LOGFILE}
 
-echo "==================="  >> /var/log/DEV_OPS_training.log
-echo "===END OF SR======="  >> /var/log/DEV_OPS_training.log
+echo "==================="  >> ${LOGFILE}
+echo "===END OF SR======="  >> ${LOGFILE}
+exit 0
