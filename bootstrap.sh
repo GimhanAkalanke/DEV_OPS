@@ -85,3 +85,6 @@ echo "[NORMAL] Changing to sysconfig.sh for system configuration"  >> ${LOGFILE}
   else
     echo "[WARNING] System configuration failed. Rerun sysconfig.sh or configure manually. GOOD LUCK" >> ${LOGFILE}
   fi
+  
+echo "==================="  >> ${LOGFILE}
+echo "====+END OF SR====="  >> ${LOGFILE}
