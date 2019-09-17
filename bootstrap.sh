@@ -77,6 +77,8 @@ echo "[NORMAL] Pulling config files"  >> ${LOGFILE}
 
 chmod +x $GITPATH/sysconfig.sh
 
+echo "[NORMAL] Changing to sysconfig.sh for system configuration"  >> ${LOGFILE}
+
   if $GITPATH/sysconfig.sh
   then
     echo "[NORMAL] System configuration completed successfully" >> ${LOGFILE}
