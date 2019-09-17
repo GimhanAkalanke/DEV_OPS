@@ -7,10 +7,14 @@ GITPATH="/opt/DEV_OPS"
 #GITREPO="https://github.com/GimhanAkalanke/DEV_OPS.git"
 RTPW="vcs@1234"
 
+#### Please run bootstrap.sh to set env for this script ####
+
+#### Function 01 : Setting PW based Authentication and enabling root  ####
+
 echo "==================="  >> ${LOGFILE}
 echo "[NORMAL] Replacing sshd_config file"  >> ${LOGFILE}
 rm -f /etc/ssh/sshd_config
-cp -f /opt/DEV_OPS/sshd_config /etc/ssh/sshd_config
+cp -f $GITPATH/sshd_config /etc/ssh/sshd_config
 echo "[NORMAL] Replacing sshd_config file Completed"  >> ${LOGFILE}
 
 echo "==================="  >> ${LOGFILE}
@@ -27,6 +31,10 @@ echo "[NORMAL] Setting root password"  >> ${LOGFILE}
 echo "$RTPW" | passwd --stdin root
 echo "[NORMAL] Setting root password Completed"  >> ${LOGFILE}
 
+#### Function 01 : Completed  ####
+
+#### Function 02 : Installing JAVA  ####
+
 echo "==================="  >> ${LOGFILE}
 echo "Installing Java 1.8....."  >> ${LOGFILE}
   if yum install -y java-1.8*
@@ -36,6 +44,10 @@ echo "Installing Java 1.8....."  >> ${LOGFILE}
   else
       echo "[WARNING] Installing Java 1.8 Failed" >> ${LOGFILE}
   fi
+  
+#### Function 02 : Installing JAVA completed  ####
+
+#### Function 03 : Jenknings repo configuration & jenkings configuration  ####
 
 echo "==================="  >> ${LOGFILE}
 echo "[NORMAL] Configuring Jenkins repo"  >> ${LOGFILE}
@@ -50,6 +62,8 @@ echo "[NORMAL] Configuring Jenkins repo"  >> ${LOGFILE}
   else
     echo "[MAJOR] Configuring Jenkins repo Failed"  >> ${LOGFILE}
   fi
+  
+#### Function 03 : Completed ####
 
 echo "==================="  >> ${LOGFILE}
 echo "===END OF SR======="  >> ${LOGFILE}
