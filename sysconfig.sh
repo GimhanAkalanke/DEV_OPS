@@ -36,7 +36,7 @@ echo "[NORMAL] Setting root password Completed"  >> ${LOGFILE}
 #### Function 02 : Installing JAVA  ####
 
 echo "==================="  >> ${LOGFILE}
-echo "Installing Java 1.8....."  >> ${LOGFILE}
+echo "[NORMAL] Installing Java 1.8....."  >> ${LOGFILE}
   if yum install -y java-1.8*
   then
       echo "[NORMAL] Installing Java 1.8 Completed"  >> ${LOGFILE}
@@ -66,5 +66,5 @@ echo "[NORMAL] Configuring Jenkins repo"  >> ${LOGFILE}
 #### Function 03 : Completed ####
 
 echo "==================="  >> ${LOGFILE}
-echo "===END OF SR======="  >> ${LOGFILE}
+echo "==== System configuration sysconfig.sh completed ====="  >> ${LOGFILE}
 exit 0
