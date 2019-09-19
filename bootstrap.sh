@@ -1,6 +1,7 @@
 #!/bin/bash
 
 LOGFILE="/var/log/DEV_OPS_training.log"
+SYSLOGFILE="/var/log/DEV_OPS_trainingSYS.log"
 GITPATH="/opt/DEV_OPS"
 GITUSER="GimhanAkalanke"
 GITEMAIL="myinbox.gm@gmail.com"
@@ -79,7 +80,7 @@ chmod +x $GITPATH/sysconfig.sh
 
 echo "[NORMAL] Changing to sysconfig.sh for system configuration"  >> ${LOGFILE}
 
-  if $GITPATH/sysconfig.sh
+  if $GITPATH/sysconfig.sh > $SYSLOGFILE> 2>&1 
   then
     echo "[NORMAL] System configuration completed successfully" >> ${LOGFILE}
   else
