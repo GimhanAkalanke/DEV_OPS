@@ -66,6 +66,18 @@ echo "[NORMAL] Configuring Jenkins repo"  >> ${LOGFILE}
   if yum install -y jenkins
   then
      echo "[NORMAL] Installing Jenkins Completed"  >> ${LOGFILE}
+     JnknPw=$(cat /var/lib/jenkins/secrets/initialAdminPassword)
+     sed -i s/JENKINS_PORT="8080"/JENKINS_PORT="80"/g /etc/sysconfig/jenkins
+     systemctl enable jenkins
+     systemctl start jenkins
+      echo
+      {
+      =====Jenkins Service Status check Started====
+      systemctl status jenkins
+      =====Jenkins Service Status check Completed====
+      ${JnknPw} - Use this as initial password
+      JENKINS_PORT:80
+      } >> $LOGFILE  
   else
      echo "[WARNING] Installing Jenkins Failed"  >> ${LOGFILE}
   fi
