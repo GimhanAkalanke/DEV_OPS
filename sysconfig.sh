@@ -63,6 +63,12 @@ echo "[NORMAL] Configuring Jenkins repo"  >> ${LOGFILE}
     echo "[MAJOR] Configuring Jenkins repo Failed"  >> ${LOGFILE}
   fi
   
+  if yum install -y jenkins
+  then
+     echo "[NORMAL] Installing Jenkins Completed"  >> ${LOGFILE}
+  else
+     echo "[WARNING] Installing Jenkins Failed"  >> ${LOGFILE}
+  fi
 #### Function 03 : Completed ####
 
 echo "==================="  >> ${LOGFILE}
