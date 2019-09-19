@@ -67,7 +67,7 @@ echo "[NORMAL] Configuring Jenkins repo"  >> ${LOGFILE}
   then
      echo "[NORMAL] Installing Jenkins Completed"  >> ${LOGFILE}
      JnknPw=$(cat /var/lib/jenkins/secrets/initialAdminPassword)
-     sed -i s/JENKINS_PORT="8080"/JENKINS_PORT="80"/g /etc/sysconfig/jenkins
+     sed -i 's/JENKINS_PORT="8080"/JENKINS_PORT="80"/g' /etc/sysconfig/jenkins
      systemctl enable jenkins
      systemctl start jenkins
       echo
