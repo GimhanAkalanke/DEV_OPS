@@ -68,24 +68,29 @@ echo "[NORMAL] Configuring Jenkins repo"
      echo "[NORMAL] Installing Jenkins Completed"
      JnknPw=$(cat /var/lib/jenkins/secrets/initialAdminPassword)
      
-     if sed -i 's/JENKINS_PORT="8080"/JENKINS_PORT="80"/g' /etc/sysconfig/jenkins
+     if sed -i 's/JENKINS_PORT="8080"/JENKINS_PORT="8081"/g' /etc/sysconfig/jenkins
      then 
-      echo "[INFO] Jenkins port changed!!! New port : 80"
+      echo "[INFO] Jenkins port changed!!! New port : 8081"
      else
       echo "[WARNING] Jenkins port changed Failed. Current port : 8080"
      fi
-     systemctl enable jenkins
-     systemctl start jenkins
+     
+     if systemctl enable jenkins && systemctl start jenkins
+     then
      echo "[NORMAL] Jenkins Service Status check Started"
      systemctl status jenkins
      echo "[NORMAL] Jenkins Service Status check Completed"
      echo "[INFO] Jenkins initial password : ${JnknPw}"
+     else
+     echo "[WARNING] Jenkins server start Failed"
+     fi
      
   else
      echo "[WARNING] Installing Jenkins Failed"  
   fi
 #### Function 03 : Completed ####
 
-echo "==================="
+echo "======================================================"
 echo "==== System configuration sysconfig.sh completed ====="  
+echo "======================================================"
 exit 0
