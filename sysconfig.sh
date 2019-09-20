@@ -70,14 +70,12 @@ echo "[NORMAL] Configuring Jenkins repo"  >> ${LOGFILE}
      sed -i 's/JENKINS_PORT="8080"/JENKINS_PORT="80"/g' /etc/sysconfig/jenkins
      systemctl enable jenkins
      systemctl start jenkins
-      echo
-      {
-      =====Jenkins Service Status check Started====
+      echo "[NORMAL] Jenkins Service Status check Started"
       systemctl status jenkins
-      =====Jenkins Service Status check Completed====
-      ${JnknPw} - Use this as initial password
-      JENKINS_PORT:80
-      } >> $LOGFILE  
+      echo "[NORMAL] Jenkins Service Status check Completed"
+      echo "${JnknPw} - Use this as initial password"
+      echo "JENKINS_PORT:80"
+     
   else
      echo "[WARNING] Installing Jenkins Failed"  >> ${LOGFILE}
   fi
