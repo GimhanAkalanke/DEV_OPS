@@ -10,7 +10,8 @@ RTPW="vcs@1234"
 #### Please run bootstrap.sh to set env for this script ####
 
 #### Function 01 : Setting PW based Authentication and enabling root  ####
-
+SetRootLogin ()
+{
 echo "==================="
 echo "[NORMAL] Replacing sshd_config file"
 rm -f /etc/ssh/sshd_config
@@ -28,13 +29,15 @@ echo "[NORMAL] Restarting sshd service"
 
 echo "===================" 
 echo "[NORMAL] Setting root password"
-echo "$RTPW" | passwd --stdin root
+echo "$1" | passwd --stdin root
 echo "[NORMAL] Setting root password Completed"
+}
 
 #### Function 01 : Completed  ####
 
 #### Function 02 : Installing JAVA  ####
-
+InstallJava ()
+{
 echo "==================="
 echo "[NORMAL] Installing Java 1.8....."
   if yum install -y java-1.8*
@@ -43,12 +46,14 @@ echo "[NORMAL] Installing Java 1.8....."
       java -version >> ${LOGFILE}
   else
       echo "[WARNING] Installing Java 1.8 Failed"
+      #return ()
   fi
-  
+}
 #### Function 02 : Installing JAVA completed  ####
 
 #### Function 03 : Jenknings repo configuration & jenkings configuration  ####
-
+InstallJenkins ()
+{
 echo "===================" 
 echo "[NORMAL] Configuring Jenkins repo"
   if wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat/jenkins.repo
@@ -61,7 +66,9 @@ echo "[NORMAL] Configuring Jenkins repo"
     fi
   else
     echo "[MAJOR] Configuring Jenkins repo Failed"
+    #return ()
   fi
+  
   
   if yum install -y jenkins
   then
@@ -77,18 +84,25 @@ echo "[NORMAL] Configuring Jenkins repo"
      
      if systemctl enable jenkins && systemctl start jenkins
      then
-     echo "[NORMAL] Jenkins Service Status check Started"
-     systemctl status jenkins
-     echo "[NORMAL] Jenkins Service Status check Completed"
-     echo "[INFO] Jenkins initial password : ${JnknPw}"
+      echo "[NORMAL] Jenkins Service Status check Started"
+      systemctl status jenkins
+      echo "[NORMAL] Jenkins Service Status check Completed"
+      echo "[INFO] Jenkins initial password : ${JnknPw}"
      else
-     echo "[WARNING] Jenkins server start Failed"
+      echo "[WARNING] Jenkins server start Failed"
+      #return ()
      fi
      
   else
      echo "[WARNING] Installing Jenkins Failed"  
+     #return ()
   fi
+}
 #### Function 03 : Completed ####
+
+SetRootLogin $RTPW
+InstallJava
+InstallJenkins
 
 echo "======================================================"
 echo "==== System configuration sysconfig.sh completed ====="  
