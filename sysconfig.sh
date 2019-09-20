@@ -11,76 +11,81 @@ RTPW="vcs@1234"
 
 #### Function 01 : Setting PW based Authentication and enabling root  ####
 
-echo "==================="  >> ${LOGFILE}
-echo "[NORMAL] Replacing sshd_config file"  >> ${LOGFILE}
+echo "==================="
+echo "[NORMAL] Replacing sshd_config file"
 rm -f /etc/ssh/sshd_config
 cp -f $GITPATH/sshd_config /etc/ssh/sshd_config
-echo "[NORMAL] Replacing sshd_config file Completed"  >> ${LOGFILE}
+echo "[NORMAL] Replacing sshd_config file Completed"
 
-echo "==================="  >> ${LOGFILE}
-echo "[NORMAL] Restarting sshd service"  >> ${LOGFILE}
+echo "==================="
+echo "[NORMAL] Restarting sshd service"
   if systemctl restart sshd.service
   then
-    echo "[NORMAL] Restarting sshd service Completed"  >> ${LOGFILE}
+    echo "[NORMAL] Restarting sshd service Completed"
   else
-    echo "[WARNING] Restarting sshd service Failed"  >> ${LOGFILE}
+    echo "[WARNING] Restarting sshd service Failed"
   fi
 
-echo "==================="  >> ${LOGFILE}
-echo "[NORMAL] Setting root password"  >> ${LOGFILE}
+echo "===================" 
+echo "[NORMAL] Setting root password"
 echo "$RTPW" | passwd --stdin root
-echo "[NORMAL] Setting root password Completed"  >> ${LOGFILE}
+echo "[NORMAL] Setting root password Completed"
 
 #### Function 01 : Completed  ####
 
 #### Function 02 : Installing JAVA  ####
 
-echo "==================="  >> ${LOGFILE}
-echo "[NORMAL] Installing Java 1.8....."  >> ${LOGFILE}
+echo "==================="
+echo "[NORMAL] Installing Java 1.8....."
   if yum install -y java-1.8*
   then
-      echo "[NORMAL] Installing Java 1.8 Completed"  >> ${LOGFILE}
+      echo "[NORMAL] Installing Java 1.8 Completed"
       java -version >> ${LOGFILE}
   else
-      echo "[WARNING] Installing Java 1.8 Failed" >> ${LOGFILE}
+      echo "[WARNING] Installing Java 1.8 Failed"
   fi
   
 #### Function 02 : Installing JAVA completed  ####
 
 #### Function 03 : Jenknings repo configuration & jenkings configuration  ####
 
-echo "==================="  >> ${LOGFILE}
-echo "[NORMAL] Configuring Jenkins repo"  >> ${LOGFILE}
+echo "===================" 
+echo "[NORMAL] Configuring Jenkins repo"
   if wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat/jenkins.repo
   then
     if rpm --import https://pkg.jenkins.io/redhat/jenkins.io.key
     then
-      echo "[NORMAL] Configuring Jenkins repo Completed"  >> ${LOGFILE}
+      echo "[NORMAL] Configuring Jenkins repo Completed"
     else
-      echo "[WARNING] Jenkins key import Failed"  >> ${LOGFILE}
+      echo "[WARNING] Jenkins key import Failed"
     fi
   else
-    echo "[MAJOR] Configuring Jenkins repo Failed"  >> ${LOGFILE}
+    echo "[MAJOR] Configuring Jenkins repo Failed"
   fi
   
   if yum install -y jenkins
   then
-     echo "[NORMAL] Installing Jenkins Completed"  >> ${LOGFILE}
+     echo "[NORMAL] Installing Jenkins Completed"
      JnknPw=$(cat /var/lib/jenkins/secrets/initialAdminPassword)
-     sed -i 's/JENKINS_PORT="8080"/JENKINS_PORT="80"/g' /etc/sysconfig/jenkins
+     
+     if sed -i 's/JENKINS_PORT="8080"/JENKINS_PORT="80"/g' /etc/sysconfig/jenkins
+     then 
+      echo "[INFO] Jenkins port changed!!! New port : 80"
+     else
+      echo "[WARNING] Jenkins port changed Failed. Current port : 8080"
+     fi
      systemctl enable jenkins
      systemctl start jenkins
-      echo "[NORMAL] Jenkins Service Status check Started"
-      systemctl status jenkins
-      echo "[NORMAL] Jenkins Service Status check Completed"
-      echo "${JnknPw} - Use this as initial password"
-      echo "JENKINS_PORT:80"
+     echo "[NORMAL] Jenkins Service Status check Started"
+     systemctl status jenkins
+     echo "[NORMAL] Jenkins Service Status check Completed"
+     echo "[INFO] Jenkins initial password : ${JnknPw}"
      
   else
-     echo "[WARNING] Installing Jenkins Failed"  >> ${LOGFILE}
+     echo "[WARNING] Installing Jenkins Failed"  
   fi
 #### Function 03 : Completed ####
 
-echo "==================="  >> ${LOGFILE}
-echo "==== System configuration sysconfig.sh completed ====="  >> ${LOGFILE}
+echo "==================="
+echo "==== System configuration sysconfig.sh completed ====="  
 exit 0
