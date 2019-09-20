@@ -1,0 +1,1 @@
+C:\Users\acaldera\Desktop\putty\PUTTY.EXE root@18.188.23.157 -pw vcs@1234

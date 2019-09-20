@@ -1,0 +1,6 @@
+#!/bin/bash
+echo "vcs@1234" | passwd --stdin root
+sed -i '/^PermitRootLogin/s/no/yes/' /etc/ssh/sshd_config
+sed -i '/^PasswordAuthentication/s/no/yes/' /etc/ssh/sshd_config
+systemctl restart sshd.service
+touch /var/test_file1

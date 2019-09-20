@@ -1,0 +1,72 @@
+GIT : GimhanAkalanke
+Vcs@1234
+
+Quick setup — if you’ve done this kind of thing before
+ Set up in Desktop 
+or 
+HTTPS 
+SSH 
+ 
+https://github.com/GimhanAkalanke/DEV_OPS.git 
+
+Get started by creating a new file or uploading an existing file. We recommend every repository include a README, LICENSE, and .gitignore. 
+…or create a new repository on the command line
+ 
+echo "# DEV_OPS" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin https://github.com/GimhanAkalanke/DEV_OPS.git
+git push -u origin master
+…or push an existing repository from the command line
+ 
+git remote add origin https://github.com/GimhanAkalanke/DEV_OPS.git
+git push -u origin master
+
+git clone https://username:password@github.com/username/repository.git
+git pull https://user:password@github.com/name/repo.git master
+git pull origin master
+
+#!/bin/bash
+echo "DEV_OPS_Trainng Log"  > /var/log/DEV_OPS_training.log
+echo "==================="  >> /var/log/DEV_OPS_training.log
+echo "Installing GIT....."  >> /var/log/DEV_OPS_training.log
+yum install -y git
+echo "GIT Install Completed"  >> /var/log/DEV_OPS_training.log
+echo "==================="  >> /var/log/DEV_OPS_training.log
+echo "Making env for repository"  >> /var/log/DEV_OPS_training.log
+mkdir /opt/DEV_OPS
+cd /opt/DEV_OPS
+echo "env setup completed"  >> /var/log/DEV_OPS_training.log
+echo "==================="  >> /var/log/DEV_OPS_training.log
+echo "GIT repo config"  >> /var/log/DEV_OPS_training.log
+git config --global user.name "GimhanAkalanke"
+git config --global user.email myinbox.gm@gmail.com
+git init
+git remote add origin https://github.com/GimhanAkalanke/DEV_OPS.git
+echo "GIT repo config completed"  >> /var/log/DEV_OPS_training.log
+echo "==================="  >> /var/log/DEV_OPS_training.log
+echo "Getting sshd config"  >> /var/log/DEV_OPS_training.log
+git pull https://GimhanAkalanke:Vcs_1234@github.com/GimhanAkalanke/DEV_OPS.git master
+echo "sshd config downloaded"  >> /var/log/DEV_OPS_training.log
+echo "==================="  >> /var/log/DEV_OPS_training.log
+echo "changing sshd config"  >> /var/log/DEV_OPS_training.log
+rm -rf /etc/ssh/sshd_config
+cp -rf /opt/DEV_OPS/sshd_config /etc/ssh/sshd_config
+echo "changing sshd config completed"  >> /var/log/DEV_OPS_training.log
+echo "==================="  >> /var/log/DEV_OPS_training.log
+echo "Restarting sshd service"  >> /var/log/DEV_OPS_training.log
+systemctl restart sshd.service
+echo "Restarting sshd service completed"  >> /var/log/DEV_OPS_training.log
+echo "==================="  >> /var/log/DEV_OPS_training.log
+echo "Setting root passwd"  >> /var/log/DEV_OPS_training.log
+echo "vcs@1234" | passwd --stdin root
+echo "root passwd setting completed"  >> /var/log/DEV_OPS_training.log
+echo "==================="  >> /var/log/DEV_OPS_training.log
+echo "===END OF SR======="  >> /var/log/DEV_OPS_training.log
+
+
+
+
+rm -rf /etc/ssh/sshd_config
+cp -rf ./sshd_config /etc/ssh/sshd_config
