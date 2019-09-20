@@ -82,7 +82,7 @@ echo "[NORMAL] Changing to sysconfig.sh for system configuration"  >> ${LOGFILE}
 
 $GITPATH/sysconfig.sh &> $SYSLOGFILE
 
-  if [$? -eq 0] 
+  if $? -eq 0 
   then
     echo "[NORMAL] System configuration completed successfully" >> ${LOGFILE}
   else
