@@ -80,7 +80,9 @@ chmod +x $GITPATH/sysconfig.sh
 
 echo "[NORMAL] Changing to sysconfig.sh for system configuration"  >> ${LOGFILE}
 
-  if $GITPATH/sysconfig.sh > $SYSLOGFILE> 2>&1 
+$GITPATH/sysconfig.sh &> $SYSLOGFILE
+
+  if [$? -eq 0] 
   then
     echo "[NORMAL] System configuration completed successfully" >> ${LOGFILE}
   else
